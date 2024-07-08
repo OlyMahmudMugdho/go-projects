@@ -16,6 +16,9 @@ func NewServer(port string) *Server {
 
 func (s *Server) Run() error {
 	router := http.NewServeMux()
-	router.HandleFunc("GET /", hello.HelloApi)
+
+	helloHandler := hello.NewHello()
+	helloHandler.RegisterRoutes(router)
+
 	return http.ListenAndServe(":"+s.port, router)
 }
