@@ -10,7 +10,7 @@ import (
 )
 
 func ConnectionString(p types.PostgresConfig) string {
-	return "postgresql://" + p.Username + ":" + p.Password + "@" + p.Host + ":" + string(p.Port) + p.DB + "?=sslmode=" + p.Sslmode
+	return "postgresql://" + p.Username + ":" + p.Password + "@" + p.Host + ":" + p.Port + p.DB + "?=sslmode=" + p.Sslmode
 }
 
 func Connect(config types.PostgresConfig) (conn *sql.DB, err error) {
