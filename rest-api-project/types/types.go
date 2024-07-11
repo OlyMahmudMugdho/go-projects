@@ -4,7 +4,7 @@ type PostgresConfig struct {
 	Username string
 	Password string
 	Host     string
-	Port     int
+	Port     string
 	DB       string
 	Sslmode  string
 }
