@@ -1,12 +1,14 @@
 package api
 
 import (
-	"fmt"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/OlyMahmudMugdho/go-projects/rest-api-project/db"
 	"github.com/OlyMahmudMugdho/go-projects/rest-api-project/services/hello"
 	"github.com/OlyMahmudMugdho/go-projects/rest-api-project/types"
+	"github.com/joho/godotenv"
 )
 
 type Server struct {
@@ -15,18 +17,24 @@ type Server struct {
 }
 
 func NewServer(port string) *Server {
+	envError := godotenv.Load()
+
+	if envError != nil {
+		log.Fatal(envError)
+	}
+
 	cfg := &types.PostgresConfig{
-		Username: "postgres",
-		Password: "mysecretpassword",
-		Host:     "localhost",
-		Port:     5432,
-		DB:       "dummy",
-		Sslmode:  "disable",
+		Username: os.Getenv("PG_USERNAME"),
+		Password: os.Getenv("PG_PASSWORD"),
+		Host:     os.Getenv("PG_HOST"),
+		Port:     os.Getenv("PG_PORT"),
+		DB:       os.Getenv("PG_DB"),
+		Sslmode:  os.Getenv("PG_SSLMODE"),
 	}
 
 	_, err := db.Connect(*cfg)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	return &Server{port: port, cfg: *cfg}
 }
