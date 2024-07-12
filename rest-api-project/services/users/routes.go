@@ -16,6 +16,10 @@ func NewUserHandler(store types.UserStore) *UserHandler {
 	return &UserHandler{store: store}
 }
 
+func (u *UserHandler) RegisterRoutes(router *http.ServeMux) {
+	router.HandleFunc("/register", u.RegisterUser)
+}
+
 func (u *UserHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 	user := new(types.User)
 	json.NewDecoder(r.Body).Decode(&user)
