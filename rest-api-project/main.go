@@ -9,14 +9,6 @@ import (
 
 func main() {
 
-	vars := make(map[string]string)
-
-	vars["foo"] = "bar"
-
-	for key, value := range vars {
-		fmt.Println(key + " : " + value)
-	}
-
 	port := "8080"
 	fmt.Println("server is running on port " + port)
 
