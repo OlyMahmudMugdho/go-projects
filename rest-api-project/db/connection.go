@@ -10,15 +10,23 @@ import (
 )
 
 func ConnectionString(p types.PostgresConfig) string {
-	return "postgresql://" + p.Username + ":" + p.Password + "@" + p.Host + ":" + p.Port + p.DB + "?=sslmode=" + p.Sslmode
+	return "user=" + p.Username + " " + "dbname=" + p.DB + " " + "sslmode=" + p.Sslmode + " " + "password=" + p.Password
 }
 
 func Connect(config types.PostgresConfig) (conn *sql.DB, err error) {
+	fmt.Println(ConnectionString(config))
 	db, err := sql.Open("postgres", ConnectionString(config))
 	if err != nil {
 		log.Fatal(err)
-	} else {
-		fmt.Println("db connected")
 	}
+
+	if err := db.Ping(); err != nil {
+		fmt.Println("can't connect")
+		log.Fatal(err)
+	} else {
+		fmt.Println("connected")
+	}
+
+	defer db.Close()
 	return db, err
 }
