@@ -11,12 +11,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type Server struct {
+type ApiServer struct {
 	port string
 	cfg  types.PostgresConfig
 }
 
-func NewServer(port string) *Server {
+func NewServer(port string) *ApiServer {
 	envError := godotenv.Load()
 
 	if envError != nil {
@@ -36,10 +36,10 @@ func NewServer(port string) *Server {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return &Server{port: port, cfg: *cfg}
+	return &ApiServer{port: port, cfg: *cfg}
 }
 
-func (s *Server) Run() error {
+func (s *ApiServer) Run() error {
 	router := http.NewServeMux()
 
 	helloHandler := hello.NewHello()
