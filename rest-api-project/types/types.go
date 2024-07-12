@@ -1,5 +1,7 @@
 package types
 
+import "time"
+
 type PostgresConfig struct {
 	Username string
 	Password string
@@ -7,4 +9,12 @@ type PostgresConfig struct {
 	Port     string
 	DB       string
 	Sslmode  string
+}
+
+type User struct {
+	Id        int       `json:"id"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Email     string    `json:"email"`
+	CreatedAt time.Time `json:"created_at"`
 }
