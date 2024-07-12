@@ -14,15 +14,30 @@ type Store struct {
 }
 
 func NewStore(db *sql.DB) *Store {
-	data, error := os.ReadFile("./userTable.sql")
-	if error != nil {
-		log.Fatal("unable to create database")
-	}
-	_, err := db.Exec(string(data))
-	if err != nil {
-		log.Fatal(err)
-	}
 	return &Store{db: db}
+}
+
+func (s *Store) LoadSchema() ([]byte, error) {
+	data, err := os.ReadFile("./services/users/userTable.sql")
+
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return data, nil
+}
+
+func (s *Store) CreateDatabase() {
+	schema, _ := s.LoadSchema()
+	_, error := s.db.Exec(string(schema))
+
+	if error != nil {
+		fmt.Println("error occurred in store")
+		return
+	}
+
+	fmt.Println("db created")
 }
 
 func (s *Store) CreateUser(user types.User) error {
