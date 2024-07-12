@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/OlyMahmudMugdho/go-projects/rest-api-project/types"
+	"github.com/OlyMahmudMugdho/go-projects/rest-api-project/utils"
 )
 
 type Store struct {
@@ -17,19 +18,17 @@ func NewStore(db *sql.DB) *Store {
 	return &Store{db: db}
 }
 
-func (s *Store) LoadSchema() ([]byte, error) {
-	data, err := os.ReadFile("./services/users/userTable.sql")
+func LoadSchema() ([]byte, error) {
+	schema, err := os.ReadFile(utils.LoadSchemaLocation() + "userTable.sql")
 
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
-
-	return data, nil
+	return schema, nil
 }
 
 func (s *Store) CreateDatabase() {
-	schema, _ := s.LoadSchema()
+	schema, _ := LoadSchema()
 	_, error := s.db.Exec(string(schema))
 
 	if error != nil {
