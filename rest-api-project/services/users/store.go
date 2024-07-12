@@ -37,7 +37,7 @@ func (s *Store) CreateDatabase() {
 		return
 	}
 
-	fmt.Println("db created")
+	fmt.Println("user table created")
 }
 
 func (s *Store) CreateUser(user types.User) error {
