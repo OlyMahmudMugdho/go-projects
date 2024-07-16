@@ -15,7 +15,9 @@ type Store struct {
 }
 
 func NewStore(db *sql.DB) *Store {
-	return &Store{db: db}
+	store := &Store{db: db}
+	store.CreateUserTable()
+	return store
 }
 
 func LoadSchema() ([]byte, error) {
@@ -27,7 +29,7 @@ func LoadSchema() ([]byte, error) {
 	return schema, nil
 }
 
-func (s *Store) CreateDatabase() {
+func (s *Store) CreateUserTable() {
 	schema, _ := LoadSchema()
 	_, error := s.db.Exec(string(schema))
 
@@ -40,10 +42,13 @@ func (s *Store) CreateDatabase() {
 }
 
 func (s *Store) CreateUser(user types.User) error {
-	_, err := s.db.Query("INSERT INTO users (first_name, last_name, email) VALUES (?,?,?)", user.FirstName, user.LastName, user.Email)
+
+	var query string = fmt.Sprintf(`INSERT INTO users (first_name, last_name, email) VALUES ('%s','%s','%s')`, user.FirstName, user.LastName, user.Email)
+
+	_, err := s.db.Exec(query)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err.Error())
 		return err
 	}
 	fmt.Println("user added to the database")
