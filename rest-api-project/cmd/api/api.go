@@ -8,7 +8,6 @@ import (
 	"os"
 
 	"github.com/OlyMahmudMugdho/go-projects/rest-api-project/db"
-	"github.com/OlyMahmudMugdho/go-projects/rest-api-project/services/hello"
 	"github.com/OlyMahmudMugdho/go-projects/rest-api-project/services/users"
 	"github.com/OlyMahmudMugdho/go-projects/rest-api-project/types"
 	"github.com/joho/godotenv"
@@ -59,15 +58,9 @@ func NewServer(port string) *ApiServer {
 func (s *ApiServer) Run() error {
 	router := http.NewServeMux()
 
-	helloHandler := hello.NewHello()
-	helloHandler.RegisterRoutes(router)
-
 	userStore := users.NewStore(s.db)
-	userStore.CreateDatabase()
-	// userStore.ReadSchema()
-	// userHandler := users.NewUserHandler(userStore)
-
-	// userHandler.RegisterRoutes(router)
+	userHandler := users.NewUserHandler(userStore)
+	userHandler.RegisterRoutes(router)
 
 	return http.ListenAndServe(":"+s.port, router)
 }
