@@ -7,11 +7,11 @@ import (
 
 func main() {
 
-	username, _ := runCommand("whoami")
+	username, _ := RunCommand("whoami")
 	fmt.Println(string(username))
 }
 
-func runCommand(command string) ([]byte, error) {
+func RunCommand(command string) ([]byte, error) {
 	foundCommand := exec.Command(command)
 	return foundCommand.Output()
 }
