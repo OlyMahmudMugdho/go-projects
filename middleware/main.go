@@ -8,8 +8,10 @@ import (
 
 func main() {
 	PORT := ":8080"
+
 	handlerFn := http.HandlerFunc(SimpleApi)
 	http.Handle("GET /", Logger(handlerFn))
+
 	log.Printf("server is running on port %v \n", PORT)
 	log.Fatal(http.ListenAndServe(PORT, nil))
 }
