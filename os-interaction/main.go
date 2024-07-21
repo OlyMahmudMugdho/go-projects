@@ -11,6 +11,7 @@ func main() {
 
 	username, _ := RunCommand("whoami")
 	fmt.Println(string(username))
+	RenameFile("some.txt", "random.txt")
 }
 
 func RunCommand(command string) ([]byte, error) {
@@ -30,4 +31,8 @@ func GetProcess(pid int) (*os.Process, error) {
 
 func KillProcess(process *os.Process) error {
 	return process.Kill()
+}
+
+func RenameFile(oldName string, newName string) error {
+	return os.Rename(oldName, newName)
 }
