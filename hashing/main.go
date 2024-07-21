@@ -7,8 +7,16 @@ import (
 
 func main() {
 	var hash string = base64Encode("mugdho")
-	fmt.Println("hashed string : " + hash)
 	var decoded string = base64Decode(hash)
+
+	if base64Compare("mugdho", hash) {
+		fmt.Println("matched")
+	} else {
+		fmt.Println("didn't matched")
+	}
+
+	fmt.Println("hashed string : " + hash)
+
 	fmt.Println("decoded string : ", decoded)
 }
 
@@ -19,4 +27,8 @@ func base64Encode(plain string) string {
 func base64Decode(hash string) string {
 	decoded, _ := base64.RawStdEncoding.DecodeString(hash)
 	return string(decoded)
+}
+
+func base64Compare(plain string, hashed string) bool {
+	return base64Decode(hashed) == plain
 }
