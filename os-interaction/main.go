@@ -27,3 +27,7 @@ func GetProcess(pid int) (*os.Process, error) {
 	}
 	return process, nil
 }
+
+func KillProcess(process *os.Process) error {
+	return process.Kill()
+}
